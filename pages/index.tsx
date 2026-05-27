@@ -4,20 +4,7 @@ import Head from 'next/head'
 import { Sun, Moon } from 'lucide-react'
 import { useTheme } from '../hooks/useTheme'
 
-const ROAD_HOUSE_LIMITS: Record<string, number> = {
-  '1': 20,
-  '2': 50,
-  '3': 20,
-  '4': 20,
-  '5': 20,
-  '6': 20,
-  '7': 20,
-  '8': 20,
-  '9': 20,
-  '10': 20,
-  '11': 20,
-  '12': 50,
-}
+
 
 export default function Home() {
   const { isDark, setIsDark } = useTheme()
@@ -26,11 +13,11 @@ export default function Home() {
     name: '',
     landlord: '',
     roadNumber: '',
-    close: '',
     houseNumber: '',
     email: '',
     phoneNumber: '',
     password: '',
+    wantsAdmin: false,
   })
 
   const [loading, setLoading] = useState(false)
@@ -38,7 +25,10 @@ export default function Home() {
   const [validationError, setValidationError] = useState<string | null>(null)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value } = e.target
+    const target = e.target
+    const value = target.type === 'checkbox' ? (target as HTMLInputElement).checked : target.value
+    const name = target.name
+    
     setFormData((prev) => ({ ...prev, [name]: value }))
 
     // Clear validation error on change
@@ -65,11 +55,7 @@ export default function Home() {
       return
     }
 
-    const limit = ROAD_HOUSE_LIMITS[roadNumber]
-    if (limit && houseNum > limit) {
-      setValidationError(`House number cannot exceed ${limit} for Road ${roadNumber}.`)
-      return
-    }
+
 
     setLoading(true)
     try {
@@ -88,11 +74,11 @@ export default function Home() {
           name: '',
           landlord: '',
           roadNumber: '',
-          close: '',
           houseNumber: '',
           email: '',
           phoneNumber: '',
           password: '',
+          wantsAdmin: false,
         })
       } else {
         setMessage({ type: 'error', text: data.message || 'Registration failed.' })
@@ -144,7 +130,7 @@ export default function Home() {
         <div className="w-full max-w-[500px]">
           <header className="mb-12 text-center md:text-left">
             <span className="text-xs uppercase tracking-widest text-zinc-600 dark:text-zinc-400 font-medium">Registration</span>
-            <h2 className="text-3xl md:text-4xl font-semibold mt-2 mb-4 tracking-tight">Establish Residence</h2>
+            <h2 className="text-3xl md:text-4xl font-semibold mt-2 mb-4 tracking-tight">Parliament Estate Residence</h2>
             <p className="text-base text-zinc-600 dark:text-zinc-400 leading-relaxed">Complete the form below to register within the Parliament Estate digital management system.</p>
           </header>
 
@@ -179,21 +165,23 @@ export default function Home() {
                 />
               </div>
               <div className="group">
-                <label className="text-xs block mb-2 text-zinc-600 dark:text-zinc-400 uppercase tracking-wider font-medium" htmlFor="landlord-name">Landlord Name (Optional)</label>
-                <input
+                <label className="text-xs block mb-2 text-zinc-600 dark:text-zinc-400 uppercase tracking-wider font-medium" htmlFor="landlord-name">Landlord or Tenant</label>
+                <select
                   id="landlord-name"
                   name="landlord"
                   value={formData.landlord}
                   onChange={handleChange}
-                  className="w-full bg-transparent border border-zinc-200 dark:border-zinc-800 rounded-none px-4 py-3 text-base focus:border-black dark:focus:border-white outline-none transition-colors"
-                  placeholder="Estate Management Ltd."
-                  type="text"
-                />
+                  className="w-full bg-transparent border border-zinc-200 dark:border-zinc-800 rounded-none px-4 py-3 text-base focus:border-black dark:focus:border-white outline-none transition-colors appearance-none cursor-pointer text-zinc-900 dark:text-zinc-100 [&>option]:text-black"
+                >
+                  <option disabled value="">Select</option>
+                  <option value="landlord">Landlord</option>
+                  <option value="tenant">Tenant</option>
+                </select>
               </div>
             </div>
 
             {/* Address Section */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="group">
                 <label className="text-xs block mb-2 text-zinc-600 dark:text-zinc-400 uppercase tracking-wider font-medium" htmlFor="road-number">Road Number *</label>
                 <select
@@ -205,37 +193,33 @@ export default function Home() {
                   className="w-full bg-transparent border border-zinc-200 dark:border-zinc-800 rounded-none px-4 py-3 text-base focus:border-black dark:focus:border-white outline-none transition-colors appearance-none cursor-pointer text-zinc-900 dark:text-zinc-100 [&>option]:text-black"
                 >
                   <option disabled value="">Select Road</option>
-                  {Array.from({ length: 12 }, (_, i) => (
-                    <option key={i + 1} value={String(i + 1)}>
-                      Road {i + 1}
-                    </option>
-                  ))}
+                  <option value="1">Road 1</option>
+                  <option value="Road 1 Close 1">Road 1 Close 1</option>
+                  <option value="2">Road 2</option>
+                  <option value="Close 2 Avenue">Close 2 Avenue</option>
+                  <option value="3">Road 3</option>
+                  <option value="4">Road 4</option>
+                  <option value="5">Road 5</option>
+                  <option value="6">Road 6</option>
+                  <option value="7">Road 7</option>
+                  <option value="8">Road 8</option>
+                  <option value="9">Road 9</option>
+                  <option value="10">Road 10</option>
+                  <option value="11">Road 11</option>
+                  <option value="12">Road 12</option>
+                  <option value="Road 12A">Road 12A</option>
+                  <option value="Road 12B">Road 12B</option>
+                  <option value="Road 12C">Road 12C</option>
+                  <option value="Road 12D">Road 12D</option>
+                  <option value="Road 12E">Road 12E</option>
+                  <option value="Road 12F">Road 12F</option>
                 </select>
               </div>
-              <div className="group">
-                <label className="text-xs block mb-2 text-zinc-600 dark:text-zinc-400 uppercase tracking-wider font-medium" htmlFor="close-number">Close *</label>
-                <input
-                  id="close-number"
-                  name="close"
-                  type="number"
-                  required
-                  min="1"
-                  step="1"
-                  value={formData.close}
-                  onChange={handleChange}
-                  className="w-full bg-transparent border border-zinc-200 dark:border-zinc-800 rounded-none px-4 py-3 text-base focus:border-black dark:focus:border-white outline-none transition-colors"
-                  placeholder="1"
-                />
-              </div>
+
 
               <div className="group">
                 <label className="text-xs block mb-2 text-zinc-600 dark:text-zinc-400 uppercase tracking-wider font-medium flex justify-between" htmlFor="house-number">
                   <span>House Number *</span>
-                  {formData.roadNumber && (
-                    <span className="text-[10px] opacity-70">
-                      Max {ROAD_HOUSE_LIMITS[formData.roadNumber] || 20}
-                    </span>
-                  )}
                 </label>
                 <input
                   id="house-number"
@@ -286,18 +270,37 @@ export default function Home() {
             </div>
 
             {/* Security Section */}
-            <div className="group">
-              <label className="text-xs block mb-2 text-zinc-600 dark:text-zinc-400 uppercase tracking-wider font-medium" htmlFor="password">Password (Optional)</label>
-              <input
-                id="password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                className="w-full bg-transparent border border-zinc-200 dark:border-zinc-800 rounded-none px-4 py-3 text-base focus:border-black dark:focus:border-white outline-none transition-colors"
-                placeholder="••••••••••••"
-                type="password"
-              />
-              <p className="text-[10px] text-zinc-500 mt-2">Only required if you need admin access.</p>
+            <div className="space-y-4">
+              <div className="flex items-center gap-3">
+                <input
+                  type="checkbox"
+                  id="wants-admin"
+                  name="wantsAdmin"
+                  checked={formData.wantsAdmin}
+                  onChange={handleChange}
+                  className="w-4 h-4 accent-black dark:accent-white cursor-pointer"
+                />
+                <label htmlFor="wants-admin" className="text-sm text-zinc-600 dark:text-zinc-400 cursor-pointer select-none">
+                  Request admin access
+                </label>
+              </div>
+
+              {formData.wantsAdmin && (
+                <div className="group animate-in fade-in slide-in-from-top-2 duration-300">
+                  <label className="text-xs block mb-2 text-zinc-600 dark:text-zinc-400 uppercase tracking-wider font-medium" htmlFor="password">Password</label>
+                  <input
+                    id="password"
+                    name="password"
+                    required={formData.wantsAdmin}
+                    value={formData.password}
+                    onChange={handleChange}
+                    className="w-full bg-transparent border border-zinc-200 dark:border-zinc-800 rounded-none px-4 py-3 text-base focus:border-black dark:focus:border-white outline-none transition-colors"
+                    placeholder="••••••••••••"
+                    type="password"
+                  />
+                  <p className="text-[10px] text-zinc-500 mt-2">Required for admin access.</p>
+                </div>
+              )}
             </div>
 
             <div className="pt-4">

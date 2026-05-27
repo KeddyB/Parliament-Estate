@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import Head from 'next/head'
-import { Sun, Moon, RefreshCw, ChevronLeft, ChevronRight } from 'lucide-react'
+import { Sun, Moon, RefreshCw, ChevronLeft, ChevronRight, Download } from 'lucide-react'
 import { useTheme } from '../../hooks/useTheme'
 
 interface Member {
@@ -10,7 +10,6 @@ interface Member {
   name: string
   landlord?: string
   roadNumber: string
-  close?: number | string
   houseNumber: string
   email: string
   phoneNumber?: string
@@ -168,6 +167,32 @@ export default function AdminDashboard() {
     }
   }
 
+  const handleExportCSV = () => {
+    const headers = ['Name', 'Role', 'Address', 'Email', 'Phone Number']
+    const rows = members.map(m => {
+      const role = m.landlord ? m.landlord.charAt(0).toUpperCase() + m.landlord.slice(1) : 'N/A'
+      const address = `Road ${m.roadNumber}, House ${m.houseNumber}`
+      return [
+        `"${(m.name || '').replace(/"/g, '""')}"`,
+        `"${role.replace(/"/g, '""')}"`,
+        `"${address.replace(/"/g, '""')}"`,
+        `"${(m.email || '').replace(/"/g, '""')}"`,
+        `"${(m.phoneNumber || '').replace(/"/g, '""')}"`
+      ].join(',')
+    })
+
+    const csvContent = [headers.join(','), ...rows].join('\n')
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' })
+    const link = document.createElement('a')
+    const url = URL.createObjectURL(blob)
+    link.setAttribute('href', url)
+    link.setAttribute('download', `parliament_estate_members_${new Date().toISOString().split('T')[0]}.csv`)
+    link.style.visibility = 'hidden'
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+  }
+
   // Calculate statistics
   const totalCount = members.length
   const verifiedCount = members.filter((m) => m.isVerified).length
@@ -316,7 +341,15 @@ export default function AdminDashboard() {
         </div>
 
         {/* Members Table Header */}
-        <div className="flex justify-end mb-2">
+        <div className="flex justify-between items-center mb-3">
+          <button
+            onClick={handleExportCSV}
+            className="flex items-center gap-2 px-3 py-1.5 text-xs font-semibold bg-black dark:bg-white text-white dark:text-black hover:opacity-90 transition duration-150"
+            title="Export to CSV"
+          >
+            <Download className="w-3.5 h-3.5" />
+            Export CSV
+          </button>
           <button
             onClick={fetchMembers}
             className="p-2 text-zinc-500 hover:text-black dark:hover:text-white transition-colors duration-200"
@@ -404,7 +437,7 @@ export default function AdminDashboard() {
                         <div className="min-w-0">
                           <div className="font-semibold text-sm truncate">{member.name}</div>
                           <div className="text-xs text-zinc-600 dark:text-zinc-400 mt-0.5">
-                            Road {member.roadNumber}, Close {member.close}, House {member.houseNumber}
+                            Road {member.roadNumber}, House {member.houseNumber}
                           </div>
                           <div className="text-xs text-zinc-500 mt-0.5 truncate">{member.email}</div>
                         </div>
@@ -469,7 +502,7 @@ export default function AdminDashboard() {
 
                         {/* Address */}
                         <td className="px-6 py-5">
-                          <div className="font-medium">Road {member.roadNumber}, Close {member.close}, House {member.houseNumber}</div>
+                          <div className="font-medium">Road {member.roadNumber}, House {member.houseNumber}</div>
                         </td>
 
                         {/* Contact */}
