@@ -132,8 +132,8 @@ export default function Home() {
                 <Moon className="w-5 h-5 text-zinc-600 dark:text-zinc-400" />
               )}
             </button>
-            <Link className="text-sm font-medium text-black dark:text-white hover:opacity-90 transition-all hidden sm:block" href="/admin/login">
-              Admin Portal →
+            <Link className="text-sm font-medium text-black dark:text-white hover:opacity-90 transition-all" href="/admin/login">
+              Admin
             </Link>
           </div>
         </div>
