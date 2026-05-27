@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Register | Parliament Estate</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&amp;family=Geist:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-high": "#eae7eb",
+                        "inverse-surface": "#303033",
+                        "tertiary-fixed": "#e2e2e3",
+                        "background": "#fbf8fc",
+                        "on-primary-container": "#848484",
+                        "primary-fixed-dim": "#c6c6c6",
+                        "surface-container": "#f0edf1",
+                        "surface-container-low": "#f6f2f7",
+                        "primary-fixed": "#e2e2e2",
+                        "primary-container": "#1b1b1b",
+                        "surface": "#fbf8fc",
+                        "surface-bright": "#fbf8fc",
+                        "surface-container-highest": "#e4e1e6",
+                        "tertiary-container": "#1a1c1d",
+                        "on-primary-fixed-variant": "#474747",
+                        "surface-variant": "#e4e1e6",
+                        "on-background": "#1b1b1e",
+                        "on-primary-fixed": "#1b1b1b",
+                        "on-error": "#ffffff",
+                        "on-surface": "#1b1b1e",
+                        "inverse-primary": "#c6c6c6",
+                        "tertiary": "#000000",
+                        "on-primary": "#ffffff",
+                        "on-secondary-container": "#63646c",
+                        "outline": "#7e7576",
+                        "outline-variant": "#cfc4c5",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "secondary-fixed": "#e3e1ec",
+                        "on-secondary-fixed": "#1a1b22",
+                        "error": "#ba1a1a",
+                        "inverse-on-surface": "#f3f0f4",
+                        "on-tertiary-container": "#838485",
+                        "surface-tint": "#5e5e5e",
+                        "on-secondary-fixed-variant": "#46464e",
+                        "secondary": "#5d5e66",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary-fixed-dim": "#c6c6c7",
+                        "on-surface-variant": "#4c4546",
+                        "primary": "#000000",
+                        "secondary-fixed-dim": "#c6c5cf",
+                        "secondary-container": "#e3e1ec",
+                        "on-error-container": "#93000a",
+                        "surface-dim": "#dcd9dd",
+                        "on-tertiary-fixed-variant": "#454748",
+                        "on-tertiary-fixed": "#1a1c1d",
+                        "error-container": "#ffdad6"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "section-gap": "80px",
+                        "unit": "4px",
+                        "gutter": "24px",
+                        "container-max": "1200px",
+                        "margin-desktop": "48px",
+                        "margin-mobile": "16px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Geist"],
+                        "body-md": ["Geist"],
+                        "headline-lg-mobile": ["Geist"],
+                        "label-sm": ["JetBrains Mono"],
+                        "display": ["Geist"],
+                        "body-lg": ["Geist"],
+                        "headline-md": ["Geist"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "500"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "500"}],
+                        "label-sm": ["12px", {"lineHeight": "1.5", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "display": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400"}],
+                        "headline-md": ["20px", {"lineHeight": "1.4", "letterSpacing": "-0.01em", "fontWeight": "500"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            transition: background-color 0.3s ease;
+        }
+    </style>
+</head>
+<body class="bg-background dark:bg-surface text-on-surface">
+<!-- TopAppBar -->
+<header class="docked full-width top-0 bg-surface dark:bg-surface border-b border-outline-variant dark:border-outline z-50 sticky">
+<div class="max-w-[1200px] mx-auto w-full flex justify-between items-center px-gutter h-16">
+<div class="flex items-center gap-3">
+<img alt="Parliament Estate" class="w-8 h-8 object-contain" src="https://lh3.googleusercontent.com/aida/ADBb0ugkMhdmiBToxSTGrW_7qqdDbcjMugIBWEUWSo8CEvQpqq0XeHqdUOc9KBX-5FsURc56kcs-cvJU6iI4Gh8E15l0K6VfvZqhFyW2unyPg05IFeKR7BltqB4MXUk_q0YHhdFLh-0cnO4MdTkRHRR9Ll20TVSKTz4xQ4wCrF3n_HC6PvtvyamMV86N0vhwnFiaR7_J9Cv4EPowINVkNa-_P9CWmMB7KWjEioN1_GR3_BmcBj9uxJCcu4Cclw"/>
+<h1 class="font-headline-md text-headline-md-mobile md:text-headline-md font-medium tracking-tight text-primary dark:text-on-primary">Parliament Estate</h1>
+</div>
+<div class="flex items-center gap-4">
+<button class="flex items-center justify-center p-2 hover:opacity-90 hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-all active:scale-[0.98] duration-150" id="theme-toggle">
+<span class="material-symbols-outlined text-on-surface-variant dark:text-on-surface" id="theme-icon">light_mode</span>
+</button>
+<a class="font-label-sm text-label-sm text-primary dark:text-on-primary hover:opacity-90 transition-all hidden sm:block" href="#">Admin Portal →</a>
+</div>
+</div>
+</header>
+<main class="min-h-screen flex flex-col items-center px-margin-mobile md:px-gutter py-section-gap">
+<div class="w-full max-w-[500px]">
+<header class="mb-12 text-center md:text-left">
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant">Registration</span>
+<h2 class="font-display text-headline-lg-mobile md:text-display mt-2 mb-4">Establish Residence</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Complete the form below to register within the Parliament Estate digital management system.</p>
+</header>
+<form class="space-y-8">
+<!-- Name Section -->
+<div class="space-y-6">
+<div class="group">
+<label class="font-label-sm text-label-sm block mb-2 text-on-surface-variant uppercase tracking-tighter" for="full-name">Full Name</label>
+<input class="w-full bg-transparent border border-outline-variant dark:border-outline rounded-none px-4 py-3 font-body-md focus:border-primary dark:focus:border-on-primary outline-none transition-colors" id="full-name" placeholder="Johnathan Doe" type="text"/>
+</div>
+<div class="group">
+<label class="font-label-sm text-label-sm block mb-2 text-on-surface-variant uppercase tracking-tighter" for="landlord-name">Landlord Name (Optional)</label>
+<input class="w-full bg-transparent border border-outline-variant dark:border-outline rounded-none px-4 py-3 font-body-md focus:border-primary dark:focus:border-on-primary outline-none transition-colors" id="landlord-name" placeholder="Estate Management Ltd." type="text"/>
+</div>
+</div>
+<!-- Address Section -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="group">
+<label class="font-label-sm text-label-sm block mb-2 text-on-surface-variant uppercase tracking-tighter" for="road-number">Road Number</label>
+<select class="w-full bg-transparent border border-outline-variant dark:border-outline rounded-none px-4 py-3 font-body-md focus:border-primary dark:focus:border-on-primary outline-none transition-colors appearance-none" id="road-number">
+<option disabled="" selected="" value="">Select Road</option>
+<script>
+                                for(let i=1; i<=12; i++) {
+                                    document.write(`<option value="${i}">Road ${i}</option>`);
+                                }
+                            </script>
+</select>
+</div>
+<div class="group">
+<label class="font-label-sm text-label-sm block mb-2 text-on-surface-variant uppercase tracking-tighter" for="house-number">House Number</label>
+<input class="w-full bg-transparent border border-outline-variant dark:border-outline rounded-none px-4 py-3 font-body-md focus:border-primary dark:focus:border-on-primary outline-none transition-colors" id="house-number" placeholder="24B" type="text"/>
+</div>
+</div>
+<div class="group">
+<label class="font-label-sm text-label-sm block mb-2 text-on-surface-variant uppercase tracking-tighter" for="close-number">Close (Optional)</label>
+<input class="w-full bg-transparent border border-outline-variant dark:border-outline rounded-none px-4 py-3 font-body-md focus:border-primary dark:focus:border-on-primary outline-none transition-colors" id="close-number" placeholder="West Wing C4" type="text"/>
+</div>
+<!-- Contact Section -->
+<div class="space-y-6">
+<div class="group">
+<label class="font-label-sm text-label-sm block mb-2 text-on-surface-variant uppercase tracking-tighter" for="email">Email Address</label>
+<input class="w-full bg-transparent border border-outline-variant dark:border-outline rounded-none px-4 py-3 font-body-md focus:border-primary dark:focus:border-on-primary outline-none transition-colors" id="email" placeholder="resident@parliament.estate" type="email"/>
+</div>
+<div class="group">
+<label class="font-label-sm text-label-sm block mb-2 text-on-surface-variant uppercase tracking-tighter" for="phone">Phone Number</label>
+<input class="w-full bg-transparent border border-outline-variant dark:border-outline rounded-none px-4 py-3 font-body-md focus:border-primary dark:focus:border-on-primary outline-none transition-colors" id="phone" placeholder="+44 20 7946 0958" type="tel"/>
+</div>
+</div>
+<!-- Security Section -->
+<div class="group">
+<label class="font-label-sm text-label-sm block mb-2 text-on-surface-variant uppercase tracking-tighter" for="password">Password</label>
+<input class="w-full bg-transparent border border-outline-variant dark:border-outline rounded-none px-4 py-3 font-body-md focus:border-primary dark:focus:border-on-primary outline-none transition-colors" id="password" placeholder="••••••••••••" type="password"/>
+</div>
+<div class="pt-4">
+<button class="w-full bg-primary dark:bg-on-primary text-on-primary dark:text-primary py-5 font-label-sm text-label-sm uppercase tracking-[0.2em] font-bold hover:opacity-90 active:scale-[0.99] transition-all duration-200" type="submit">
+                        Complete Registration
+                    </button>
+</div>
+<p class="text-center font-label-sm text-label-sm text-on-surface-variant mt-8">
+                    By registering, you agree to our <a class="underline hover:text-primary transition-colors" href="#">Digital Charter</a> and <a class="underline hover:text-primary transition-colors" href="#">Privacy Mandates</a>.
+                </p>
+</form>
+</div>
+</main>
+<!-- Footer -->
+<footer class="full-width bottom-0 bg-surface dark:bg-surface border-t border-outline-variant dark:border-outline">
+<div class="max-w-[1200px] mx-auto w-full py-section-gap px-gutter flex flex-col md:flex-row justify-between items-center gap-gutter">
+<div class="text-center md:text-left">
+<p class="font-body-md text-body-md text-on-surface-variant">© 2024 Parliament Estate. Architectural Excellence.</p>
+</div>
+<nav class="flex gap-8">
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary dark:hover:text-on-primary transition-colors" href="#">Privacy Policy</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary dark:hover:text-on-primary transition-colors" href="#">Terms of Service</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary dark:hover:text-on-primary transition-colors" href="#">Contact</a>
+</nav>
+</div>
+</footer>
+<script>
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+        const html = document.documentElement;
+
+        themeToggle.addEventListener('click', () => {
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                themeIcon.textContent = 'dark_mode';
+            } else {
+                html.classList.add('dark');
+                themeIcon.textContent = 'light_mode';
+            }
+        });
+
+        // Initialize state
+        if (!html.classList.contains('dark')) {
+            themeIcon.textContent = 'dark_mode';
+        }
+    </script>
+</body></html>

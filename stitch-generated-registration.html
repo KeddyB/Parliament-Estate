@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Member Registration | Parliament Estate</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-container": "#54647a",
+                        "on-secondary": "#ffffff",
+                        "tertiary": "#000000",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-fixed": "#131b2e",
+                        "outline": "#76777d",
+                        "surface-tint": "#565e74",
+                        "on-tertiary-container": "#98805d",
+                        "on-tertiary-fixed": "#271901",
+                        "on-secondary-fixed-variant": "#38485d",
+                        "surface-container-low": "#f2f4f6",
+                        "tertiary-fixed": "#fcdeb5",
+                        "error": "#ba1a1a",
+                        "on-surface-variant": "#45464d",
+                        "on-surface": "#191c1e",
+                        "inverse-primary": "#bec6e0",
+                        "on-primary-container": "#7c839b",
+                        "tertiary-fixed-dim": "#dec29a",
+                        "primary-container": "#131b2e",
+                        "secondary-fixed-dim": "#b7c8e1",
+                        "surface-dim": "#d8dadc",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-high": "#e6e8ea",
+                        "primary-fixed": "#dae2fd",
+                        "surface-container": "#eceef0",
+                        "outline-variant": "#c6c6cd",
+                        "on-error": "#ffffff",
+                        "surface": "#f7f9fb",
+                        "secondary-container": "#d0e1fb",
+                        "on-error-container": "#93000a",
+                        "primary-fixed-dim": "#bec6e0",
+                        "on-secondary-fixed": "#0b1c30",
+                        "primary": "#000000",
+                        "surface-container-highest": "#e0e3e5",
+                        "tertiary-container": "#271901",
+                        "on-background": "#191c1e",
+                        "error-container": "#ffdad6",
+                        "secondary-fixed": "#d3e4fe",
+                        "surface-bright": "#f7f9fb",
+                        "inverse-surface": "#2d3133",
+                        "background": "#f7f9fb",
+                        "on-primary": "#ffffff",
+                        "inverse-on-surface": "#eff1f3",
+                        "on-primary-fixed-variant": "#3f465c",
+                        "surface-variant": "#e0e3e5",
+                        "secondary": "#505f76",
+                        "on-tertiary-fixed-variant": "#574425"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "unit": "4px",
+                        "gutter": "24px",
+                        "sm": "8px",
+                        "margin-mobile": "16px",
+                        "xs": "4px",
+                        "xxl": "80px",
+                        "md": "16px",
+                        "lg": "24px",
+                        "margin-desktop": "64px",
+                        "xl": "48px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "headline-lg-mobile": ["Inter"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "500"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "label-md": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                        "label-sm": ["12px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "1.2", "fontWeight": "600"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background dark:bg-background text-on-surface transition-colors duration-300">
+<!-- TopAppBar -->
+<nav class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop h-16 bg-surface dark:bg-background border-b border-outline-variant dark:border-outline">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary dark:text-on-primary-fixed cursor-pointer">menu</span>
+<h1 class="font-display-lg text-headline-md-mobile uppercase tracking-widest text-primary dark:text-on-primary-fixed">Parliament Estate</h1>
+</div>
+<button class="hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-colors p-2 rounded-full" onclick="document.documentElement.classList.toggle('dark')">
+<span class="material-symbols-outlined text-primary dark:text-on-primary-fixed" data-icon="dark_mode">dark_mode</span>
+</button>
+</nav>
+<main class="pt-xxl pb-xxl flex flex-col items-center">
+<!-- Hero Section -->
+<header class="w-full max-w-[1280px] px-margin-mobile md:px-margin-desktop mt-xl mb-xl text-center">
+<h2 class="font-display-lg text-display-lg md:text-display-lg text-on-surface dark:text-on-surface mb-sm">Join the Estate</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant dark:text-outline max-w-xl mx-auto">Access the exclusive member portal and manage your residence within Parliament Estate.</p>
+</header>
+<!-- Registration Form Card -->
+<section class="w-full max-w-[640px] px-margin-mobile">
+<div class="bg-surface dark:bg-surface-container-lowest border border-outline-variant dark:border-outline p-lg md:p-xl">
+<form class="space-y-lg" onsubmit="event.preventDefault(); alert('Registration submitted');">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-lg">
+<!-- Full Name -->
+<div class="flex flex-col gap-xs">
+<label class="font-label-sm text-label-sm uppercase text-on-surface-variant dark:text-outline">Full Name</label>
+<input class="bg-transparent border-0 border-b border-outline-variant focus:border-primary focus:ring-0 px-0 py-2 font-body-md text-body-md transition-all" placeholder="John Doe" required="" type="text"/>
+</div>
+<!-- Landlord Name -->
+<div class="flex flex-col gap-xs">
+<label class="font-label-sm text-label-sm uppercase text-on-surface-variant dark:text-outline flex justify-between">
+                                Landlord Name
+                                <span class="font-normal lowercase opacity-60">(optional)</span>
+</label>
+<input class="bg-transparent border-0 border-b border-outline-variant focus:border-primary focus:ring-0 px-0 py-2 font-body-md text-body-md transition-all" placeholder="Estate Management" type="text"/>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-lg">
+<!-- Road Number -->
+<div class="flex flex-col gap-xs">
+<label class="font-label-sm text-label-sm uppercase text-on-surface-variant dark:text-outline">Road Number</label>
+<select class="bg-transparent border-0 border-b border-outline-variant focus:border-primary focus:ring-0 px-0 py-2 font-body-md text-body-md transition-all appearance-none cursor-pointer" required="">
+<option disabled="" selected="" value="">Select</option>
+<option>Road 1</option>
+<option>Road 2</option>
+<option>Road 3</option>
+<option>Road 4</option>
+<option>Road 5</option>
+<option>Road 6</option>
+<option>Road 7</option>
+<option>Road 8</option>
+<option>Road 9</option>
+<option>Road 10</option>
+<option>Road 11</option>
+<option>Road 12</option>
+</select>
+</div>
+<!-- House Number -->
+<div class="flex flex-col gap-xs">
+<label class="font-label-sm text-label-sm uppercase text-on-surface-variant dark:text-outline">House Number</label>
+<input class="bg-transparent border-0 border-b border-outline-variant focus:border-primary focus:ring-0 px-0 py-2 font-body-md text-body-md transition-all" placeholder="10A" required="" type="text"/>
+</div>
+<!-- Close -->
+<div class="flex flex-col gap-xs">
+<label class="font-label-sm text-label-sm uppercase text-on-surface-variant dark:text-outline flex justify-between">
+                                Close No.
+                                <span class="font-normal lowercase opacity-60">(opt)</span>
+</label>
+<input class="bg-transparent border-0 border-b border-outline-variant focus:border-primary focus:ring-0 px-0 py-2 font-body-md text-body-md transition-all" placeholder="4" type="text"/>
+</div>
+</div>
+<!-- Contact Info -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-lg">
+<div class="flex flex-col gap-xs">
+<label class="font-label-sm text-label-sm uppercase text-on-surface-variant dark:text-outline">Email Address</label>
+<input class="bg-transparent border-0 border-b border-outline-variant focus:border-primary focus:ring-0 px-0 py-2 font-body-md text-body-md transition-all" placeholder="resident@parliament.est" required="" type="email"/>
+</div>
+<div class="flex flex-col gap-xs">
+<label class="font-label-sm text-label-sm uppercase text-on-surface-variant dark:text-outline">Phone Number</label>
+<input class="bg-transparent border-0 border-b border-outline-variant focus:border-primary focus:ring-0 px-0 py-2 font-body-md text-body-md transition-all" placeholder="+44 20 7946 0000" required="" type="tel"/>
+</div>
+</div>
+<!-- Password -->
+<div class="flex flex-col gap-xs">
+<label class="font-label-sm text-label-sm uppercase text-on-surface-variant dark:text-outline">Password</label>
+<input class="bg-transparent border-0 border-b border-outline-variant focus:border-primary focus:ring-0 px-0 py-2 font-body-md text-body-md transition-all" placeholder="••••••••••••" required="" type="password"/>
+</div>
+<!-- Submit -->
+<div class="pt-md">
+<button class="w-full bg-primary text-on-primary py-md font-label-md text-label-md uppercase tracking-widest hover:bg-on-primary-fixed transition-all duration-200 active:scale-[0.98]" type="submit">
+                            Complete Registration
+                        </button>
+</div>
+</form>
+</div>
+<p class="mt-lg text-center font-label-sm text-label-sm text-on-surface-variant dark:text-outline">
+                ALREADY A MEMBER? <a class="text-primary dark:text-on-primary-fixed font-bold underline underline-offset-4" href="#">LOGIN HERE</a>
+</p>
+</section>
+<!-- Decorative Image Section -->
+<section class="w-full max-w-[1280px] px-margin-mobile md:px-margin-desktop mt-xxl">
+<div class="relative h-[400px] w-full overflow-hidden grayscale brightness-90 hover:grayscale-0 transition-all duration-1000">
+<img class="object-cover w-full h-full" data-alt="A grand, architectural shot of a brutalist yet elegant apartment complex facade at twilight. The concrete structures feature sharp lines and deep shadows, illuminated by subtle internal warm lights that contrast with the cool, slate-colored evening sky. The overall aesthetic is one of expensive, institutional authority and calm confidence, using a monochromatic palette to emphasize the structural minimalism of the high-end residential estate." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCMilGAPk61LUgQcUWmHLoy8qoGIBYaJue7QXx1W-S70baG8HlfVkAq5uACi2MkhwIelzPTnUNJ5MVmaq6ZNPKtBHn9YbKlO8z0HnY9LVTyf2TsvMvSZOvi08NhXcb-W1mdpflWh16a4Hyla8GF99uvw3mBZMUABuny4tRyk_2ri7e6ERVqZsvic-6k9Oc3deu86Cz8Jhlhlxew30Bmq3bEsVAlNbnbu2GQwJm17mxrZXLnpngQ5RQXM2QYDGC6F1b6Jdc4t2VlROg"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent"></div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full py-xl px-margin-mobile flex flex-col items-center gap-sm text-center border-t border-outline-variant dark:border-outline bg-surface dark:bg-background">
+<div class="font-label-md text-label-md font-bold text-primary uppercase tracking-widest mb-xs">Parliament Estate</div>
+<div class="flex gap-lg mb-sm">
+<a class="font-label-sm text-label-sm uppercase tracking-tighter text-on-surface-variant dark:text-outline hover:text-primary dark:hover:text-on-primary-fixed transition-colors" href="#">Privacy Policy</a>
+<a class="font-label-sm text-label-sm uppercase tracking-tighter text-on-surface-variant dark:text-outline hover:text-primary dark:hover:text-on-primary-fixed transition-colors" href="#">Terms of Service</a>
+<a class="font-label-sm text-label-sm uppercase tracking-tighter text-on-surface-variant dark:text-outline hover:text-primary dark:hover:text-on-primary-fixed transition-colors" href="#">Contact</a>
+</div>
+<p class="font-label-sm text-label-sm uppercase tracking-tighter text-secondary dark:text-on-secondary-container">© 2024 Parliament Estate. All rights reserved.</p>
+</footer>
+<script>
+        // Micro-interaction for form inputs
+        const inputs = document.querySelectorAll('input, select');
+        inputs.forEach(input => {
+            input.addEventListener('focus', () => {
+                input.parentElement.classList.add('opacity-100');
+            });
+            input.addEventListener('blur', () => {
+                if (!input.value) {
+                    input.parentElement.classList.remove('opacity-100');
+                }
+            });
+        });
+    </script>
+</body></html>
