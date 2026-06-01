@@ -63,7 +63,7 @@ export default function Home() {
       return
     }
 
-    const houseNum = parseInt(houseNumber, 10)
+    const houseNum = parseInt(formData.houseNumber, 10)
     if (isNaN(houseNum) || houseNum <= 0) {
       setValidationError('House number must be a positive number.')
       return
