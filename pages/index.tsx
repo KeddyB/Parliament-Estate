@@ -23,6 +23,7 @@ export default function Home() {
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null)
   const [validationError, setValidationError] = useState<string | null>(null)
+  const [missingFields, setMissingFields] = useState<string[]>([])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const target = e.target
@@ -30,6 +31,11 @@ export default function Home() {
     const name = target.name
     
     setFormData((prev) => ({ ...prev, [name]: value }))
+
+    // Clear missing field when user types
+    if (missingFields.includes(name)) {
+      setMissingFields((prev) => prev.filter((f) => f !== name))
+    }
 
     // Clear validation error on change
     if (name === 'houseNumber' || name === 'roadNumber') {
@@ -41,11 +47,19 @@ export default function Home() {
     e.preventDefault()
     setMessage(null)
     setValidationError(null)
+    setMissingFields([])
 
-    const { name, roadNumber, houseNumber, email, password } = formData
+    const newMissingFields: string[] = []
+    if (!formData.name) newMissingFields.push('name')
+    if (!formData.landlord) newMissingFields.push('landlord')
+    if (!formData.roadNumber) newMissingFields.push('roadNumber')
+    if (!formData.houseNumber) newMissingFields.push('houseNumber')
+    if (!formData.email) newMissingFields.push('email')
+    if (formData.wantsAdmin && !formData.password) newMissingFields.push('password')
 
-    if (!name || !roadNumber || !houseNumber || !email) {
-      setMessage({ type: 'error', text: 'Please fill in all required fields.' })
+    if (newMissingFields.length > 0) {
+      setMissingFields(newMissingFields)
+      setMessage({ type: 'error', text: 'Please fill in all highlighted required fields.' })
       return
     }
 
@@ -159,7 +173,7 @@ export default function Home() {
                   required
                   value={formData.name}
                   onChange={handleChange}
-                  className="w-full bg-transparent border border-zinc-200 dark:border-zinc-800 rounded-none px-4 py-3 text-base focus:border-black dark:focus:border-white outline-none transition-colors"
+                  className={`w-full bg-transparent border rounded-none px-4 py-3 text-base outline-none transition-colors ${missingFields.includes('name') ? 'border-red-500 focus:border-red-500 text-red-500' : 'border-zinc-200 dark:border-zinc-800 focus:border-black dark:focus:border-white'}`}
                   placeholder="Johnathan Doe"
                   type="text"
                 />
@@ -171,7 +185,7 @@ export default function Home() {
                   name="landlord"
                   value={formData.landlord}
                   onChange={handleChange}
-                  className="w-full bg-transparent border border-zinc-200 dark:border-zinc-800 rounded-none px-4 py-3 text-base focus:border-black dark:focus:border-white outline-none transition-colors appearance-none cursor-pointer text-zinc-900 dark:text-zinc-100 [&>option]:text-black"
+                  className={`w-full bg-transparent border rounded-none px-4 py-3 text-base outline-none transition-colors appearance-none cursor-pointer text-zinc-900 dark:text-zinc-100 [&>option]:text-black ${missingFields.includes('landlord') ? 'border-red-500 focus:border-red-500 text-red-500' : 'border-zinc-200 dark:border-zinc-800 focus:border-black dark:focus:border-white'}`}
                 >
                   <option disabled value="">Select</option>
                   <option value="landlord">Landlord</option>
@@ -190,7 +204,7 @@ export default function Home() {
                   required
                   value={formData.roadNumber}
                   onChange={handleChange}
-                  className="w-full bg-transparent border border-zinc-200 dark:border-zinc-800 rounded-none px-4 py-3 text-base focus:border-black dark:focus:border-white outline-none transition-colors appearance-none cursor-pointer text-zinc-900 dark:text-zinc-100 [&>option]:text-black"
+                  className={`w-full bg-transparent border rounded-none px-4 py-3 text-base outline-none transition-colors appearance-none cursor-pointer text-zinc-900 dark:text-zinc-100 [&>option]:text-black ${missingFields.includes('roadNumber') ? 'border-red-500 focus:border-red-500 text-red-500' : 'border-zinc-200 dark:border-zinc-800 focus:border-black dark:focus:border-white'}`}
                 >
                   <option disabled value="">Select Road</option>
                   <option value="1">Road 1</option>
@@ -227,8 +241,7 @@ export default function Home() {
                   required
                   value={formData.houseNumber}
                   onChange={handleChange}
-                  className={`w-full bg-transparent border rounded-none px-4 py-3 text-base outline-none transition-colors ${validationError ? 'border-red-500 focus:border-red-500 text-red-500' : 'border-zinc-200 dark:border-zinc-800 focus:border-black dark:focus:border-white'
-                    }`}
+                  className={`w-full bg-transparent border rounded-none px-4 py-3 text-base outline-none transition-colors ${validationError || missingFields.includes('houseNumber') ? 'border-red-500 focus:border-red-500 text-red-500' : 'border-zinc-200 dark:border-zinc-800 focus:border-black dark:focus:border-white'}`}
                   placeholder="24"
                   type="text"
                 />
@@ -250,7 +263,7 @@ export default function Home() {
                   required
                   value={formData.email}
                   onChange={handleChange}
-                  className="w-full bg-transparent border border-zinc-200 dark:border-zinc-800 rounded-none px-4 py-3 text-base focus:border-black dark:focus:border-white outline-none transition-colors"
+                  className={`w-full bg-transparent border rounded-none px-4 py-3 text-base outline-none transition-colors ${missingFields.includes('email') ? 'border-red-500 focus:border-red-500 text-red-500' : 'border-zinc-200 dark:border-zinc-800 focus:border-black dark:focus:border-white'}`}
                   placeholder="resident@parliament.estate"
                   type="email"
                 />
@@ -294,7 +307,7 @@ export default function Home() {
                     required={formData.wantsAdmin}
                     value={formData.password}
                     onChange={handleChange}
-                    className="w-full bg-transparent border border-zinc-200 dark:border-zinc-800 rounded-none px-4 py-3 text-base focus:border-black dark:focus:border-white outline-none transition-colors"
+                    className={`w-full bg-transparent border rounded-none px-4 py-3 text-base outline-none transition-colors ${missingFields.includes('password') ? 'border-red-500 focus:border-red-500 text-red-500' : 'border-zinc-200 dark:border-zinc-800 focus:border-black dark:focus:border-white'}`}
                     placeholder="••••••••••••"
                     type="password"
                   />
