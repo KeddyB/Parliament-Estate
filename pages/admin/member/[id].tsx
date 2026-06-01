@@ -7,6 +7,7 @@ import { useTheme } from '../../../hooks/useTheme'
 
 interface Member {
   _id: string
+  residentId?: string
   name: string
   landlord?: string
   roadNumber: string
@@ -249,7 +250,7 @@ export default function MemberDetail() {
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-10">
               <div>
                 <h1 className="text-3xl font-semibold tracking-tight">{member.name}</h1>
-                <p className="text-sm text-zinc-600 dark:text-zinc-400 font-mono mt-1">ID: {member._id}</p>
+                <p className="text-sm text-zinc-600 dark:text-zinc-400 font-mono mt-1">ID: {member.residentId || member._id}</p>
               </div>
               <div className="flex items-center gap-2">
                 {member.isVerified ? (
@@ -322,7 +323,7 @@ export default function MemberDetail() {
                 <h2 className="text-xs font-medium text-zinc-600 dark:text-zinc-400 uppercase tracking-wider mb-6">System Information</h2>
                 <div className="space-y-5">
                   <div>
-                    <span className="text-[10px] uppercase tracking-wider text-zinc-500 block mb-1">Document ID</span>
+                    <span className="text-[10px] uppercase tracking-wider text-zinc-500 block mb-1">System ID</span>
                     <span className="text-sm font-mono">{member._id}</span>
                   </div>
                   <div>

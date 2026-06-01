@@ -7,6 +7,7 @@ import { useTheme } from '../../hooks/useTheme'
 
 interface Member {
   _id: string
+  residentId?: string
   name: string
   landlord?: string
   roadNumber: string
@@ -440,6 +441,7 @@ export default function AdminDashboard() {
                             Road {member.roadNumber}, House {member.houseNumber}
                           </div>
                           <div className="text-xs text-zinc-500 mt-0.5 truncate">{member.email}</div>
+                          <div className="text-[10px] font-mono text-zinc-500 dark:text-zinc-500 mt-1">ID: {member.residentId || member._id.substring(0, 8)}</div>
                         </div>
                       </div>
                       <div className="flex flex-col gap-1 shrink-0">
@@ -497,7 +499,7 @@ export default function AdminDashboard() {
                               Landlord: <span>{member.landlord}</span>
                             </div>
                           )}
-                          <span className="text-[10px] font-mono text-zinc-500 dark:text-zinc-500 block mt-1">ID: {member._id.substring(0, 8)}...</span>
+                          <span className="text-[10px] font-mono text-zinc-500 dark:text-zinc-500 block mt-1">ID: {member.residentId || member._id.substring(0, 8) + '...'}</span>
                         </td>
 
                         {/* Address */}

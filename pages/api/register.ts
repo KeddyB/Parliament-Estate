@@ -2,6 +2,25 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { sanityQuery, sanityMutate } from '../../lib/sanity'
 import { hashPassword } from '../../lib/crypto'
 
+function getRoadCode(roadValue: string): string {
+  switch (roadValue) {
+    case 'Close 2 Avenue': return 'C2';
+    case 'Road 1 Close 1': return 'R1';
+    case 'Road 12A': return '1A';
+    case 'Road 12B': return '1B';
+    case 'Road 12C': return '1C';
+    case 'Road 12D': return '1D';
+    case 'Road 12E': return '1E';
+    case 'Road 12F': return '1F';
+    default:
+      let num = roadValue || '';
+      if (num.startsWith('Road ')) {
+        num = num.replace('Road ', '');
+      }
+      return num.padStart(2, '0').slice(-2);
+  }
+}
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -27,11 +46,23 @@ export default async function handler(
     // 2. Hash the password if provided
     const hashedPassword = password ? hashPassword(password) : undefined
 
-    // 3. Create the document mutation
+    // 3. Generate residentId
+    const membersInHouse = await sanityQuery(`count(*[_type == "member" && roadNumber == "${roadNumber}" && houseNumber == "${houseNumber}"])`)
+    const count = typeof membersInHouse === 'number' ? membersInHouse : 0;
+    
+    const roadCode = getRoadCode(roadNumber);
+    const houseNumStr = String(houseNumber).padStart(3, '0').slice(-3);
+    const roleCode = landlord === 'landlord' ? 'L' : 'T';
+    const serialNumStr = String(count + 1).padStart(2, '0').slice(-2);
+    
+    const residentId = `${roadCode}${houseNumStr}${roleCode}${serialNumStr}`;
+
+    // 4. Create the document mutation
     const mutations = [
       {
         create: {
           _type: 'member',
+          residentId,
           name,
           landlord: landlord || '',
           roadNumber,
