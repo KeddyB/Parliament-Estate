@@ -31,7 +31,7 @@ export default async function handler(
 
   const { name, landlord, roadNumber, close, houseNumber, email, phoneNumber, password } = req.body
 
-  if (!name || !roadNumber || !houseNumber || !email) {
+  if (!name || !landlord || !roadNumber || !houseNumber || !email) {
     return res.status(400).json({ message: 'Required fields are missing' })
   }
 
