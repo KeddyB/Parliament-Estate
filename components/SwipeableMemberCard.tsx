@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react'
 import { motion, useAnimation } from 'framer-motion'
 import { useDrag } from '@use-gesture/react'
+import { useRouter } from 'next/router'
 import { Check, Trash2, ShieldAlert } from 'lucide-react'
 
 interface Member {
@@ -27,6 +28,7 @@ export function SwipeableMemberCard({ member, onVerify, onDelete, actionLoading 
   const [showConfirmDelete, setShowConfirmDelete] = useState(false)
   const [showConfirmVerify, setShowConfirmVerify] = useState(false)
   const controls = useAnimation()
+  const router = useRouter()
   
   // SWIPE THRESHOLDS
   const VERIFY_THRESHOLD = 100
@@ -122,12 +124,16 @@ export function SwipeableMemberCard({ member, onVerify, onDelete, actionLoading 
         </button>
       </div>
 
-      {/* Foreground Draggable Card */}
       <motion.div
         {...(bind() as any)}
         animate={controls}
         style={{ touchAction: 'pan-y' }}
-        className={`relative z-20 bg-white dark:bg-zinc-900 p-6 touch-pan-y shadow-[0_0_15px_rgba(0,0,0,0.03)] dark:shadow-none cursor-grab active:cursor-grabbing ${isVerifying ? 'opacity-50' : 'opacity-100'}`}
+        onClick={() => {
+          if (!showConfirmVerify && !showConfirmDelete) {
+            router.push(`/admin/member/${member._id}`)
+          }
+        }}
+        className={`relative z-20 bg-white dark:bg-zinc-900 p-6 touch-pan-y shadow-[0_0_15px_rgba(0,0,0,0.03)] dark:shadow-none cursor-grab active:cursor-grabbing hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-colors ${isVerifying ? 'opacity-50' : 'opacity-100'}`}
       >
         <div className="flex justify-between items-start gap-4">
           <div className="min-w-0">

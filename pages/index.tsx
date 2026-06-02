@@ -240,10 +240,17 @@ export default function Home() {
                   name="houseNumber"
                   required
                   value={formData.houseNumber}
-                  onChange={handleChange}
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    if (val === '' || /^\d+$/.test(val)) {
+                      handleChange(e);
+                    }
+                  }}
                   className={`w-full bg-transparent border rounded-none px-4 py-3 text-base outline-none transition-colors ${validationError || missingFields.includes('houseNumber') ? 'border-red-500 focus:border-red-500 text-red-500' : 'border-zinc-200 dark:border-zinc-800 focus:border-black dark:focus:border-white'}`}
                   placeholder="24"
                   type="text"
+                  inputMode="numeric"
+                  pattern="[0-9]*"
                 />
                 {validationError && (
                   <span className="text-xs text-red-500 mt-1 flex items-center gap-1">

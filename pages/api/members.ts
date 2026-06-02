@@ -16,7 +16,7 @@ export default async function handler(
     // Security: Strip passwords before sending to the client
     const sanitizedMembers = members.map((member: any) => {
       const { password, ...rest } = member
-      return rest
+      return { ...rest, hasPassword: !!password }
     })
 
     return res.status(200).json(sanitizedMembers)

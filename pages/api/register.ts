@@ -35,6 +35,10 @@ export default async function handler(
     return res.status(400).json({ message: 'Required fields are missing' })
   }
 
+  if (!/^\d+$/.test(String(houseNumber))) {
+    return res.status(400).json({ message: 'House number must contain only numbers' })
+  }
+
   try {
     // 1. Check if email is already taken (case-insensitive checks aren't strictly native in basic GROQ without lower(), so we query lower case)
     const normalizedEmail = email.toLowerCase().trim()

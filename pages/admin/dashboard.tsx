@@ -16,6 +16,7 @@ interface Member {
   phoneNumber?: string
   isAdmin: boolean
   isVerified: boolean
+  hasPassword?: boolean
 }
 
 export default function AdminDashboard() {
@@ -27,12 +28,35 @@ export default function AdminDashboard() {
   const { isDark, setIsDark } = useTheme()
   const [deleteTarget, setDeleteTarget] = useState<{ id: string; name: string } | null>(null)
   
+  // Filters
+  const [filterRoad, setFilterRoad] = useState<string>('')
+  const [filterRole, setFilterRole] = useState<string>('')
+  const [filterStatus, setFilterStatus] = useState<string>('')
+  const [filterAdmin, setFilterAdmin] = useState<string>('')
+  const [searchQuery, setSearchQuery] = useState<string>('')
+
   // Pagination
   const [currentPage, setCurrentPage] = useState(1)
   const ITEMS_PER_PAGE = 20
 
-  const totalPages = Math.ceil(members.length / ITEMS_PER_PAGE)
-  const paginatedMembers = members.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE)
+  const filteredMembers = members.filter(m => {
+    if (searchQuery) {
+      const lowerQuery = searchQuery.toLowerCase();
+      if (!m.name.toLowerCase().includes(lowerQuery) && !m.email.toLowerCase().includes(lowerQuery)) {
+        return false;
+      }
+    }
+    if (filterRoad && m.roadNumber !== filterRoad) return false;
+    if (filterRole && m.landlord !== filterRole) return false;
+    if (filterStatus === 'verified' && !m.isVerified) return false;
+    if (filterStatus === 'unverified' && m.isVerified) return false;
+    if (filterAdmin === 'admin' && !m.isAdmin) return false;
+    if (filterAdmin === 'standard' && m.isAdmin) return false;
+    return true;
+  });
+
+  const totalPages = Math.ceil(filteredMembers.length / ITEMS_PER_PAGE)
+  const paginatedMembers = filteredMembers.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE)
   
   const router = useRouter()
 
@@ -170,7 +194,7 @@ export default function AdminDashboard() {
 
   const handleExportCSV = () => {
     const headers = ['Name', 'Role', 'Address', 'Email', 'Phone Number']
-    const rows = members.map(m => {
+    const rows = filteredMembers.map(m => {
       const role = m.landlord ? m.landlord.charAt(0).toUpperCase() + m.landlord.slice(1) : 'N/A'
       const address = `Road ${m.roadNumber}, House ${m.houseNumber}`
       return [
@@ -182,12 +206,30 @@ export default function AdminDashboard() {
       ].join(',')
     })
 
-    const csvContent = [headers.join(','), ...rows].join('\n')
+    // Construct filter description
+    const filterParts = []
+    if (searchQuery) filterParts.push(`Search="${searchQuery}"`)
+    if (filterRoad) filterParts.push(`Road=${filterRoad}`)
+    if (filterRole) filterParts.push(`Role=${filterRole}`)
+    if (filterStatus) filterParts.push(`Status=${filterStatus}`)
+    if (filterAdmin) filterParts.push(`Type=${filterAdmin}`)
+    
+    const filterDescription = filterParts.length > 0 ? `Filtered by: ${filterParts.join(', ')}` : 'All Members'
+    
+    const csvContent = [`"${filterDescription}"`, headers.join(','), ...rows].join('\n')
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' })
     const link = document.createElement('a')
     const url = URL.createObjectURL(blob)
     link.setAttribute('href', url)
-    link.setAttribute('download', `parliament_estate_members_${new Date().toISOString().split('T')[0]}.csv`)
+    
+    // File name identifier
+    let filenameSuffix = 'all'
+    if (filterParts.length > 0) {
+      filenameSuffix = filterParts.map(p => p.split('=')[1].replace(/[^a-z0-9]/gi, '_').toLowerCase()).join('_')
+      if (filenameSuffix.length > 30) filenameSuffix = filenameSuffix.substring(0, 30) + '_etc'
+    }
+    
+    link.setAttribute('download', `parliament_estate_members_${filenameSuffix}_${new Date().toISOString().split('T')[0]}.csv`)
     link.style.visibility = 'hidden'
     document.body.appendChild(link)
     link.click()
@@ -288,7 +330,10 @@ export default function AdminDashboard() {
         {/* Stats Grid */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-10">
           {/* Total Members */}
-          <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-5">
+          <div 
+            onClick={() => { setFilterRoad(''); setFilterRole(''); setFilterStatus(''); setFilterAdmin(''); setSearchQuery(''); setCurrentPage(1); }}
+            className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-5 cursor-pointer hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition duration-150"
+          >
             <span className="text-xs font-medium text-zinc-600 dark:text-zinc-400 uppercase tracking-wider block mb-2">
               Total Members
             </span>
@@ -319,7 +364,10 @@ export default function AdminDashboard() {
           </div>
 
           {/* Verified Members */}
-          <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-5">
+          <div 
+            onClick={() => { setFilterRoad(''); setFilterRole(''); setFilterStatus('verified'); setFilterAdmin(''); setSearchQuery(''); setCurrentPage(1); }}
+            className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-5 cursor-pointer hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition duration-150"
+          >
             <span className="text-xs font-medium text-zinc-600 dark:text-zinc-400 uppercase tracking-wider block mb-2">
               Verified Users
             </span>
@@ -330,7 +378,10 @@ export default function AdminDashboard() {
           </div>
 
           {/* Administrators */}
-          <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-5">
+          <div 
+            onClick={() => { setFilterRoad(''); setFilterRole(''); setFilterStatus(''); setFilterAdmin('admin'); setSearchQuery(''); setCurrentPage(1); }}
+            className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-5 cursor-pointer hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition duration-150"
+          >
             <span className="text-xs font-medium text-zinc-600 dark:text-zinc-400 uppercase tracking-wider block mb-2">
               Administrators
             </span>
@@ -342,22 +393,79 @@ export default function AdminDashboard() {
         </div>
 
         {/* Members Table Header */}
-        <div className="flex justify-between items-center mb-3">
-          <button
-            onClick={handleExportCSV}
-            className="flex items-center gap-2 px-3 py-1.5 text-xs font-semibold bg-black dark:bg-white text-white dark:text-black hover:opacity-90 transition duration-150"
-            title="Export to CSV"
-          >
-            <Download className="w-3.5 h-3.5" />
-            Export CSV
-          </button>
-          <button
-            onClick={fetchMembers}
-            className="p-2 text-zinc-500 hover:text-black dark:hover:text-white transition-colors duration-200"
-            title="Refresh Data"
-          >
-            <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
-          </button>
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-3 gap-3">
+          <div className="flex flex-wrap gap-2 items-center w-full md:w-auto">
+            <input 
+              type="text" 
+              placeholder="Search members..." 
+              value={searchQuery}
+              onChange={(e) => { setSearchQuery(e.target.value); setCurrentPage(1); }}
+              className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-xs px-3 py-1.5 rounded outline-none placeholder:text-zinc-400 w-full md:w-48"
+            />
+            <select value={filterRoad} onChange={(e) => {setFilterRoad(e.target.value); setCurrentPage(1);}} className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-xs px-2 py-1.5 rounded outline-none cursor-pointer">
+              <option value="">All Roads</option>
+              <option value="1">Road 1</option>
+              <option value="Road 1 Close 1">Road 1 Close 1</option>
+              <option value="2">Road 2</option>
+              <option value="Close 2 Avenue">Close 2 Avenue</option>
+              <option value="3">Road 3</option>
+              <option value="4">Road 4</option>
+              <option value="5">Road 5</option>
+              <option value="6">Road 6</option>
+              <option value="7">Road 7</option>
+              <option value="8">Road 8</option>
+              <option value="9">Road 9</option>
+              <option value="10">Road 10</option>
+              <option value="11">Road 11</option>
+              <option value="12">Road 12</option>
+              <option value="Road 12A">Road 12A</option>
+              <option value="Road 12B">Road 12B</option>
+              <option value="Road 12C">Road 12C</option>
+              <option value="Road 12D">Road 12D</option>
+              <option value="Road 12E">Road 12E</option>
+              <option value="Road 12F">Road 12F</option>
+            </select>
+            <select value={filterRole} onChange={(e) => {setFilterRole(e.target.value); setCurrentPage(1);}} className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-xs px-2 py-1.5 rounded outline-none cursor-pointer">
+              <option value="">All Roles</option>
+              <option value="landlord">Landlord</option>
+              <option value="tenant">Tenant</option>
+            </select>
+            <select value={filterStatus} onChange={(e) => {setFilterStatus(e.target.value); setCurrentPage(1);}} className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-xs px-2 py-1.5 rounded outline-none cursor-pointer">
+              <option value="">All Statuses</option>
+              <option value="verified">Verified</option>
+              <option value="unverified">Unverified</option>
+            </select>
+            <select value={filterAdmin} onChange={(e) => {setFilterAdmin(e.target.value); setCurrentPage(1);}} className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-xs px-2 py-1.5 rounded outline-none cursor-pointer">
+              <option value="">All User Types</option>
+              <option value="admin">Administrators</option>
+              <option value="standard">Standard</option>
+            </select>
+            {(filterRoad || filterRole || filterStatus || filterAdmin || searchQuery) && (
+              <button 
+                onClick={() => { setFilterRoad(''); setFilterRole(''); setFilterStatus(''); setFilterAdmin(''); setSearchQuery(''); setCurrentPage(1); }}
+                className="text-xs text-red-500 hover:text-red-700 hover:underline px-2 py-1.5 whitespace-nowrap"
+              >
+                Clear Filters
+              </button>
+            )}
+          </div>
+          <div className="flex gap-2 w-full md:w-auto justify-end">
+            <button
+              onClick={handleExportCSV}
+              className="flex items-center gap-2 px-3 py-1.5 text-xs font-semibold bg-black dark:bg-white text-white dark:text-black hover:opacity-90 transition duration-150 rounded"
+              title="Export to CSV"
+            >
+              <Download className="w-3.5 h-3.5" />
+              Export CSV
+            </button>
+            <button
+              onClick={fetchMembers}
+              className="p-1.5 text-zinc-500 hover:text-black dark:hover:text-white transition-colors duration-200 rounded border border-zinc-200 dark:border-zinc-800"
+              title="Refresh Data"
+            >
+              <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
+            </button>
+          </div>
         </div>
 
         {/* Members Table Card */}
@@ -555,17 +663,19 @@ export default function AdminDashboard() {
                             {actionLoading === member._id + '-verify' ? '...' : member.isVerified ? 'Unverify' : 'Verify'}
                           </button>
 
-                          <button
-                            onClick={() => handleToggleAdmin(member._id, member.isAdmin)}
-                            disabled={!!actionLoading}
-                            className={`px-3 py-1.5 text-xs font-semibold tracking-wide transition duration-150 border ${
-                              member.isAdmin
-                                ? 'bg-transparent text-zinc-600 dark:text-zinc-400 border-zinc-200 dark:border-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-800'
-                                : 'bg-transparent text-black dark:text-white border-zinc-200 dark:border-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-800'
-                            }`}
-                          >
-                            {actionLoading === member._id + '-admin' ? '...' : member.isAdmin ? 'Demote' : 'Promote'}
-                          </button>
+                          {(!member.isAdmin && !member.hasPassword) ? null : (
+                            <button
+                              onClick={() => handleToggleAdmin(member._id, member.isAdmin)}
+                              disabled={!!actionLoading}
+                              className={`px-3 py-1.5 text-xs font-semibold tracking-wide transition duration-150 border ${
+                                member.isAdmin
+                                  ? 'bg-transparent text-zinc-600 dark:text-zinc-400 border-zinc-200 dark:border-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-800'
+                                  : 'bg-transparent text-black dark:text-white border-zinc-200 dark:border-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-800'
+                              }`}
+                            >
+                              {actionLoading === member._id + '-admin' ? '...' : member.isAdmin ? 'Demote' : 'Promote'}
+                            </button>
+                          )}
 
                           <button
                             onClick={() => setDeleteTarget({ id: member._id, name: member.name })}
@@ -585,7 +695,7 @@ export default function AdminDashboard() {
               {totalPages > 1 && (
                 <div className="flex items-center justify-between border-t border-zinc-200 dark:border-zinc-800 px-6 py-4 bg-zinc-50 dark:bg-zinc-950/50">
                   <span className="text-xs text-zinc-600 dark:text-zinc-400">
-                    Showing <span className="font-medium text-zinc-900 dark:text-zinc-100">{(currentPage - 1) * ITEMS_PER_PAGE + 1}</span> to <span className="font-medium text-zinc-900 dark:text-zinc-100">{Math.min(currentPage * ITEMS_PER_PAGE, members.length)}</span> of <span className="font-medium text-zinc-900 dark:text-zinc-100">{members.length}</span> results
+                    Showing <span className="font-medium text-zinc-900 dark:text-zinc-100">{filteredMembers.length > 0 ? (currentPage - 1) * ITEMS_PER_PAGE + 1 : 0}</span> to <span className="font-medium text-zinc-900 dark:text-zinc-100">{Math.min(currentPage * ITEMS_PER_PAGE, filteredMembers.length)}</span> of <span className="font-medium text-zinc-900 dark:text-zinc-100">{filteredMembers.length}</span> results
                   </span>
                   <div className="flex items-center gap-2">
                     <button
