@@ -81,6 +81,22 @@ export function SwipeableMemberCard({ member, onVerify, onDelete, actionLoading 
   const isDeleting = actionLoading === member._id + '-delete'
   const isVerifying = actionLoading === member._id + '-verify'
 
+  const formatRoad = (road: string) => {
+    if (!road) return '';
+    const lower = road.toLowerCase();
+    if (lower.includes('road') || lower.includes('close')) {
+      return road;
+    }
+    return `Road ${road}`;
+  };
+
+  const formatClose = (close?: string | number) => {
+    if (!close) return '';
+    const lower = String(close).toLowerCase();
+    if (lower.includes('close')) return `, ${close}`;
+    return `, Close ${close}`;
+  };
+
   return (
     <div className="relative w-full overflow-hidden border-b border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-800">
       {/* Background Actions (Revealed on Swipe) */}
@@ -142,7 +158,7 @@ export function SwipeableMemberCard({ member, onVerify, onDelete, actionLoading 
               <ShieldAlert className="w-4 h-4 text-amber-500 shrink-0" />
             </h3>
             <p className="text-sm text-zinc-600 dark:text-zinc-400 mt-1.5 font-medium">
-              Road {member.roadNumber}, Close {member.close}, House {member.houseNumber}
+              {formatRoad(member.roadNumber)}{formatClose(member.close)}, House {member.houseNumber}
             </p>
             <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4 mt-2">
               <p className="text-xs text-zinc-500 truncate">{member.email}</p>

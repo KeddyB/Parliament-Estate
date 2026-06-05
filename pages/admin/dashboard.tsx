@@ -58,6 +58,15 @@ export default function AdminDashboard() {
   const totalPages = Math.ceil(filteredMembers.length / ITEMS_PER_PAGE)
   const paginatedMembers = filteredMembers.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE)
   
+  const formatRoad = (road: string) => {
+    if (!road) return '';
+    const lower = road.toLowerCase();
+    if (lower.includes('road') || lower.includes('close')) {
+      return road;
+    }
+    return `Road ${road}`;
+  };
+  
   const router = useRouter()
 
   useEffect(() => {
@@ -196,7 +205,7 @@ export default function AdminDashboard() {
     const headers = ['Name', 'Role', 'Address', 'Email', 'Phone Number']
     const rows = filteredMembers.map(m => {
       const role = m.landlord ? m.landlord.charAt(0).toUpperCase() + m.landlord.slice(1) : 'N/A'
-      const address = `Road ${m.roadNumber}, House ${m.houseNumber}`
+      const address = `${formatRoad(m.roadNumber)}, House ${m.houseNumber}`
       return [
         `"${(m.name || '').replace(/"/g, '""')}"`,
         `"${role.replace(/"/g, '""')}"`,
@@ -546,7 +555,7 @@ export default function AdminDashboard() {
                         <div className="min-w-0">
                           <div className="font-semibold text-sm truncate">{member.name}</div>
                           <div className="text-xs text-zinc-600 dark:text-zinc-400 mt-0.5">
-                            Road {member.roadNumber}, House {member.houseNumber}
+                            {formatRoad(member.roadNumber)}, House {member.houseNumber}
                           </div>
                           <div className="text-xs text-zinc-500 mt-0.5 truncate">{member.email}</div>
                           <div className="text-[10px] font-mono text-zinc-500 dark:text-zinc-500 mt-1">ID: {member.residentId || member._id.substring(0, 8)}</div>
@@ -612,7 +621,7 @@ export default function AdminDashboard() {
 
                         {/* Address */}
                         <td className="px-6 py-5">
-                          <div className="font-medium">Road {member.roadNumber}, House {member.houseNumber}</div>
+                          <div className="font-medium">{formatRoad(member.roadNumber)}, House {member.houseNumber}</div>
                         </td>
 
                         {/* Contact */}

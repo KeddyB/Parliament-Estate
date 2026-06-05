@@ -154,6 +154,15 @@ export default function MemberDetail() {
     })
   }
 
+  const formatRoad = (road: string) => {
+    if (!road) return '';
+    const lower = road.toLowerCase();
+    if (lower.includes('road') || lower.includes('close')) {
+      return road;
+    }
+    return `Road ${road}`;
+  };
+
   return (
     <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-50 flex flex-col justify-between font-sans transition-colors duration-300">
       <Head>
@@ -305,7 +314,7 @@ export default function MemberDetail() {
                 <div className="space-y-5">
                   <div>
                     <span className="text-[10px] uppercase tracking-wider text-zinc-500 block mb-1">Road Number</span>
-                    <span className="text-base font-medium">Road {member.roadNumber}</span>
+                    <span className="text-base font-medium">{formatRoad(member.roadNumber)}</span>
                   </div>
                   <div>
                     <span className="text-[10px] uppercase tracking-wider text-zinc-500 block mb-1">Close</span>
